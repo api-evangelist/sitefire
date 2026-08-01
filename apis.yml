@@ -1,7 +1,30 @@
 aid: sitefire
 name: Sitefire
-description: Sitefire is a company surfaced as a portfolio company of y-combinator and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Sitefire is a Generative Engine Optimization (GEO) platform — the marketing
+  suite for the agentic web and a self-described System of Record for AI
+  visibility. It monitors how AI models (ChatGPT, Gemini, Perplexity, DeepSeek,
+  Google AI Mode and AI Overviews) mention and cite a brand across tracked
+  topics, diagnoses why content is or isn't cited using its 4C content
+  classification, and generates actionable briefings plus AI-optimized articles
+  that publish directly to CMS platforms such as Webflow and Framer. Sitefire
+  connects to analytics (GA4, Cloudflare, AWS CloudFront) to measure AI referral
+  and crawler traffic, and exposes its data and content workflows to AI agents
+  through an official hosted MCP server (Spark) and a published Agent Skills
+  bundle. A small public, unauthenticated REST API books product demos. Sitefire
+  is a Y Combinator (W2026) company.
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://sitefire.ai/og-default.png
 url: https://raw.githubusercontent.com/api-evangelist/sitefire/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,12 +34,85 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 11
+  pass: local-v1
 tags:
 - Company
-apis: []
+- Generative Engine Optimization
+- AI Visibility
+- Marketing
+- SEO
+- Analytics
+- Artificial Intelligence
+- Content Generation
+- MCP
+- Agent
+apis:
+- aid: sitefire:sitefire-book-demo-api
+  name: Sitefire Book Demo API
+  description: The Book Demo API from Sitefire — 2 operation(s) for book demo.
+  humanURL: https://sitefire.ai/llms.txt
+  baseURL: https://sitefire.ai/api
+  tags:
+  - Book Demo
+  properties:
+  - type: OpenAPI
+    url: openapi/sitefire-book-demo-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+common:
+- type: MCPServer
+  url: mcp/sitefire-mcp.yml
+  name: Sitefire MCP (Spark)
+- type: AgentSkill
+  url: skills/_index.yml
+  name: Sitefire Agent Skills
+- type: LLMsTxt
+  url: llms/sitefire-llms.txt
+  name: llms.txt
+- type: ChangeLog
+  url: changelog/sitefire-changelog.yml
+  name: Product updates
+- type: DomainSecurity
+  url: security/sitefire-domain-security.yml
+  name: Domain security probe
+- type: Documentation
+  url: https://sitefire.ai/docs/index.md
+  name: Documentation
+- type: Quickstart
+  url: https://sitefire.ai/docs/quick-start.md
+  name: Quick Start
+- type: Blog
+  url: https://sitefire.ai/blog
+  name: Blog
+- type: Pricing
+  url: https://sitefire.ai/pricing
+  name: Pricing
+- type: SignUp
+  url: https://app.sitefire.ai/signup
+  name: Sign Up
+- type: Login
+  url: https://app.sitefire.ai/login
+  name: Login
+- type: TermsOfService
+  url: https://sitefire.ai/terms
+  name: Terms
+- type: PrivacyPolicy
+  url: https://sitefire.ai/data-privacy
+  name: Data Privacy
+- type: Support
+  url: mailto:support@sitefire.ai
+  name: Support
+- type: GitHubOrganization
+  url: https://github.com/sitefire-ai
+  name: GitHub
+- type: Website
+  url: https://sitefire.ai
+  name: Website

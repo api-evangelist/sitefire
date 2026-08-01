@@ -1,0 +1,28 @@
+generated: '2026-07-21'
+method: searched
+source: https://sitefire.ai/llms.txt
+docs: https://sitefire.ai/docs/index.md
+scheme: dated-product-updates
+notes: >-
+  Sitefire publishes dated product-update notes under /docs. Recent window
+  captured from the docs list in llms.txt; each entry links to its update note.
+  Titles/summaries are verbatim; no version numbers are published.
+entries:
+  - date: '2026-06-19'
+    title: Organize, inspect, and personalize your prompts
+    summary: Three updates that make your prompt list easier to organize, dig into, and slice by persona (tags, personas, prompt details).
+    url: https://sitefire.ai/docs/2026-06-19-tags-personas-prompt-details.md
+    breaking: false
+    additions: true
+  - date: '2026-06-08'
+    title: Prompt Research, weekly opportunities, and new connectors
+    summary: Find the prompts worth tracking, act on the opportunities that matter most each week, and connect your whole stack to Sitefire.
+    url: https://sitefire.ai/docs/2026-06-08-research-opportunities-connectors.md
+    breaking: false
+    additions: true
+  - date: '2026-05-27'
+    title: Better actions with Brand kit and new output formats
+    summary: Brand Kit now guides every recommendation, and action formats are clearer about what to do, why, and how.
+    url: https://sitefire.ai/docs/2026-05-27-actions-and-brand-kit.md
+    breaking: false
+    additions: true

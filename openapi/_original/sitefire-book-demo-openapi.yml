@@ -1,0 +1,82 @@
+openapi: 3.1.0
+# x-provenance:
+#   generated: '2026-07-21'
+#   method: generated
+#   source: https://sitefire.ai/llms.txt  (Book a Demo — documented public REST API)
+info:
+  title: Sitefire Book-a-Demo API
+  version: '1.0'
+  description: >-
+    Public, unauthenticated REST API for programmatically booking a product demo
+    with Sitefire. Documented in Sitefire's llms.txt. No API key is required.
+    This is the only public REST API Sitefire currently documents; the primary
+    programmatic surface is the hosted MCP server at https://app.sitefire.ai/api/mcp.
+  contact:
+    name: Sitefire
+    email: support@sitefire.ai
+    url: https://sitefire.ai
+servers:
+  - url: https://sitefire.ai/api
+    description: Production
+paths:
+  /book-demo/slots:
+    get:
+      operationId: getBookDemoSlots
+      summary: List available demo slots
+      description: Returns the available product-demo time slots for a given date and timezone.
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: Target date in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: '2026-07-28'
+        - name: timezone
+          in: query
+          required: true
+          description: IANA timezone name used to render the slots.
+          schema:
+            type: string
+            example: America/New_York
+      responses:
+        '200':
+          description: Available slots for the requested date.
+          content:
+            application/json:
+              schema:
+                type: object
+  /book-demo:
+    post:
+      operationId: bookDemo
+      summary: Book a demo slot
+      description: Books one of the available demo slots returned by getBookDemoSlots.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, time, timezone]
+              properties:
+                name:
+                  type: string
+                  example: Your Name
+                email:
+                  type: string
+                  format: email
+                  example: you@company.com
+                time:
+                  type: string
+                  description: A slot value returned by getBookDemoSlots.
+                timezone:
+                  type: string
+                  example: America/New_York
+      responses:
+        '200':
+          description: Demo booking confirmation.
+          content:
+            application/json:
+              schema:
+                type: object

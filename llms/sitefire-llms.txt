@@ -1,0 +1,52 @@
+# Sitefire
+
+> Sitefire is a Generative Engine Optimization (GEO) platform that helps companies improve their visibility in AI-generated answers.
+
+## Book a Demo
+
+You can book a product demo with Sitefire programmatically using our REST API.
+
+### Step 1: Check available slots
+
+```
+curl "https://sitefire.ai/api/book-demo/slots?date=YYYY-MM-DD&timezone=America/New_York"
+```
+
+### Step 2: Book a slot
+
+```
+curl -X POST https://sitefire.ai/api/book-demo \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Your Name", "email": "you@company.com", "time": "<slot from step 1>", "timezone": "America/New_York"}'
+```
+
+No API key required. The API is public.
+
+## Documentation
+
+- [AI Models](https://sitefire.ai/docs/visibility-tracking.md): Supported AI platforms and markets for visibility tracking.
+- [Talk to Us](https://sitefire.ai/docs/talk-to-us.md): Get help from the Sitefire team - whether you have a question, need troubleshooting, or want to share feedback.
+- [remove-category](https://sitefire.ai/docs/remove-category.md): 
+- [Quick Start](https://sitefire.ai/docs/quick-start.md): Get started with Sitefire in 5 minutes.
+- [MCP](https://sitefire.ai/docs/mcp.md): Connect Sitefire MCP (Spark) to your workspace.
+- [KPIs](https://sitefire.ai/docs/kpis.md): Definitions, formulas, and how-to-read guidance for every metric in Sitefire - visibility, citations, crawlers, and AI referrals.
+- [Sitefire Documentation](https://sitefire.ai/docs/index.md): Learn how Sitefire tracks your brand's visibility in AI-generated answers and helps you improve it.
+- [AI Answer](https://sitefire.ai/docs/geo-overview.md): How AI-generated answers work - brand mentions, search queries, sourced pages, and citations.
+- [Diagnosis](https://sitefire.ai/docs/4c-content-classification.md): How Sitefire uses 4C classification to determine why your content is not being cited by AI engines - and what to do about it.
+- [Organize, inspect, and personalize your prompts](https://sitefire.ai/docs/2026-06-19-tags-personas-prompt-details.md): Three updates that make your prompt list easier to organize, dig into, and slice by persona.
+- [Prompt Research, weekly opportunities, and new connectors](https://sitefire.ai/docs/2026-06-08-research-opportunities-connectors.md): Find the prompts worth tracking, act on the opportunities that matter most each week, and connect your whole stack to Sitefire.
+- [Better actions with Brand kit and new output formats](https://sitefire.ai/docs/2026-05-27-actions-and-brand-kit.md): Brand Kit now guides every recommendation, and action formats are clearer about what to do, why, and how.
+- [Google Analytics (GA4)](https://sitefire.ai/docs/tracking/google-analytics.md): Create a dedicated AI traffic channel in GA4 to track referral visits from ChatGPT, Perplexity, Claude, and other AI platforms.
+- [Cloudflare](https://sitefire.ai/docs/tracking/cloudflare.md): Use Cloudflare's AI Crawl Control dashboard to analyze AI bot traffic, or connect to Sitefire for automated tracking.
+- [AWS CloudFront](https://sitefire.ai/docs/tracking/aws.md): Connect your CloudFront access logs to Sitefire to track AI bot crawl traffic across your site.
+- [webflow](https://sitefire.ai/docs/cms/webflow.md): 
+- [webflow-tables](https://sitefire.ai/docs/cms/webflow-tables.md): 
+- [CMS Integrations](https://sitefire.ai/docs/cms/setup.md): Push articles to Framer or Webflow as drafts. Connect your CMS, map fields, and publish from sitefire.
+- [framer](https://sitefire.ai/docs/cms/framer.md): 
+- [Improve Content](https://sitefire.ai/docs/actions/improve-content.md): The diagnosis found your page matches the right content type and format but isn't getting cited. Sitefire scores it with the GEO Score and generates specific improvements.
+- [Engage UGC](https://sitefire.ai/docs/actions/engage-ugc.md): When AI engines primarily cite user-generated content like Reddit and Stack Overflow, the strategy is to participate where citations happen.
+- [Editorial Coverage](https://sitefire.ai/docs/actions/editorial-coverage.md): When AI engines primarily cite editorial publications, the strategy is to earn coverage from the outlets that get cited.
+- [Create Content](https://sitefire.ai/docs/actions/create-content.md): When your existing content doesn't match the type or format that AI engines cite, you need to create new content that does.
+
+## Blog
+

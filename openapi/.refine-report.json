@@ -1,0 +1,14 @@
+{
+  "provider": "sitefire",
+  "sources": [
+    "sitefire-book-demo-api-openapi.yml"
+  ],
+  "outputs": [
+    "sitefire-book-demo-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

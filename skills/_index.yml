@@ -1,0 +1,29 @@
+generated: '2026-07-21'
+method: searched
+source: https://github.com/sitefire-ai/skills
+notes: >-
+  Provider-published Agent Skills, saved verbatim from the official
+  sitefire-ai/skills plugin repo (installable via `npx skills add sitefire-ai/skills`).
+  These skills operate against the hosted Sitefire MCP server
+  (https://app.sitefire.ai/api/mcp); their steps reference real MCP tool names.
+skills:
+  - file: sitefire-product-knowledge.md
+    name: sitefire
+    description: Sitefire AI visibility analytics — product knowledge and workflow guidance for the MCP tools.
+    api: mcp/sitefire-mcp.yml
+    operations: [get_visibility_overview, get_topic_positions, get_topic_opportunities, list_actions, get_action, get_briefing, get_article, write_article, create_action]
+  - file: sitefire-actions.md
+    name: sitefire-actions
+    description: Check & execute ready Sitefire actions — review briefings and act on them.
+    api: mcp/sitefire-mcp.yml
+    operations: [list_actions, get_briefing, get_action, write_article]
+  - file: sitefire-discover.md
+    name: sitefire-discover
+    description: Analyze AI visibility data and find new topics worth creating actions for.
+    api: mcp/sitefire-mcp.yml
+    operations: [get_visibility_overview, get_topic_positions, get_topic_opportunities, get_source_performance, create_action]
+  - file: sitefire-write-all.md
+    name: sitefire-write-all
+    description: Trigger article generation for all CREATE_CONTENT actions with ready briefings.
+    api: mcp/sitefire-mcp.yml
+    operations: [list_actions, get_action, write_article]

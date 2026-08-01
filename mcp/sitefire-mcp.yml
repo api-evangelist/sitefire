@@ -1,0 +1,46 @@
+generated: '2026-07-21'
+method: searched
+status: published
+source: https://sitefire.ai/docs/mcp.md
+notes: >-
+  Sitefire ships an official hosted remote MCP server ("Spark"). Connect via the
+  URL below; authorization is an OAuth browser sign-in to your Sitefire account.
+  Tool names below are harvested verbatim from the official plugin
+  (github.com/sitefire-ai/skills: CLAUDE.md + workflow SKILL.md files), which
+  drive these MCP tools. The published skills bundle installs via
+  `npx skills add sitefire-ai/skills`.
+server:
+  name: sitefire
+  product: Spark
+  transport: http
+  url: https://app.sitefire.ai/api/mcp
+  auth: oauth
+  clients:
+    - Claude.ai / Claude Desktop (custom connector)
+    - Claude Code (claude mcp add --transport http --scope user sitefire https://app.sitefire.ai/api/mcp)
+    - ChatGPT (developer mode MCP connector)
+    - Codex (codex mcp add sitefire --url https://app.sitefire.ai/api/mcp)
+skills_bundle:
+  install: npx skills add sitefire-ai/skills
+  repo: https://github.com/sitefire-ai/skills
+tools:
+  - name: get_visibility_overview
+    description: High-level AI visibility performance summary (score, trend, citation rate, competitor ranking).
+  - name: get_topic_positions
+    description: Competitive landscape per topic (winning/losing/competitive/untapped); supports view=all.
+  - name: get_topic_opportunities
+    description: AI-recommended priority topics worth creating actions for.
+  - name: get_source_performance
+    description: Which of your existing pages drive AI visibility.
+  - name: list_actions
+    description: List all Sitefire actions and their briefing/article status.
+  - name: get_action
+    description: Retrieve a single action, including its briefing ID.
+  - name: get_briefing
+    description: Read the actionable briefing attached to an action after diagnosis.
+  - name: get_article
+    description: Retrieve the generated article for a ready briefing.
+  - name: create_action
+    description: Create an action for a topic (preset type or auto-diagnosed).
+  - name: write_article
+    description: Trigger article generation for a CREATE_CONTENT action's briefing.
