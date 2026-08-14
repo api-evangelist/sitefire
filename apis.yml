@@ -14,16 +14,26 @@ description: >-
   bundle. A small public, unauthenticated REST API books product demos. Sitefire
   is a Y Combinator (W2026) company.
 accessModel:
-  pricing: unknown
-  onboarding: unknown
-  trial: false
+  pricing: paid
+  onboarding: self-service
+  trial: true
+  trial_days: 7
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Paid with free trial
+  confidence: high
+  source:
+  - https://sitefire.ai/pricing
+  - https://sitefire.ai/docs/quick-start.md
+  note: >-
+    Upgraded from derived/unknown on 2026-08-13 after reading the published
+    pricing page. Three tiers - Lite $249/mo, Pro $499/mo, Enterprise custom -
+    each with a 7-day free trial, self-service signup at app.sitefire.ai, and no
+    free tier. MCP access is included on every paid tier. The product API itself
+    is not publicly callable - it is the account-gated MCP server - so public
+    remains false.
+  generated: '2026-08-13'
+  method: searched
 image: https://sitefire.ai/og-default.png
 url: https://raw.githubusercontent.com/api-evangelist/sitefire/refs/heads/main/apis.yml
 x-type: company
@@ -34,11 +44,11 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-13'
 x-enrichment:
-  date: '2026-07-21'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 11
+  artifacts_added: 16
   pass: local-v1
 tags:
 - Company
@@ -62,12 +72,17 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/sitefire-book-demo-api-openapi.yml
+  - type: Overlay
+    url: overlays/sitefire-book-demo-api-overlay.yaml
+    name: API Evangelist enhancements
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/sitefire-agentic-access.yml
 - type: MCPServer
   url: mcp/sitefire-mcp.yml
   name: Sitefire MCP (Spark)
@@ -116,3 +131,42 @@ common:
 - type: Website
   url: https://sitefire.ai
   name: Website
+- type: ToolCrosswalk
+  url: mcp/sitefire-tool-crosswalk.yml
+  name: MCP tool / REST operation crosswalk
+- type: Authentication
+  url: authentication/sitefire-authentication.yml
+  name: Authentication profile
+- type: OAuthScopes
+  url: scopes/sitefire-scopes.yml
+  name: OAuth scopes (MCP)
+- type: Conventions
+  url: conventions/sitefire-conventions.yml
+  name: API conventions
+- type: ErrorCatalog
+  url: errors/sitefire-problem-types.yml
+  name: Error catalog
+- type: Lifecycle
+  url: lifecycle/sitefire-lifecycle.yml
+  name: Lifecycle and availability
+- type: Conformance
+  url: conformance/sitefire-conformance.yml
+  name: Standards conformance
+- type: Compliance
+  url: https://sitefire.ai/data-privacy
+  name: GDPR and DPA compliance statement
+- type: DataModel
+  url: data-model/sitefire-data-model.yml
+  name: Data model
+- type: Packages
+  url: packages/sitefire-packages.yml
+  name: Packages
+- type: Plans
+  url: plans/sitefire-plans-pricing.yml
+  name: Plans and pricing
+- type: RateLimits
+  url: rate-limits/sitefire-rate-limits.yml
+  name: Quotas and rate limits
+- type: ContentSignal
+  url: well-known/sitefire-robots.txt
+  name: Content-Signal AI usage preferences
