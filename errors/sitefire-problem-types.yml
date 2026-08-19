@@ -1,0 +1,81 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/sitefire-book-demo-api-openapi.yml
+notes: >-
+  Sitefire publishes no error reference. The Book Demo OpenAPI declares only 200
+  responses on both operations - there is not a single 4xx or 5xx response
+  documented anywhere in the spec, so nothing could be derived from it beyond
+  that absence. The entries below are therefore split into two groups: what the
+  contract declares (only success), and what was OBSERVED on the wire when the
+  endpoints were probed on 2026-08-13. Observed shapes are recorded verbatim and
+  labelled as observed, never promoted into the spec.
+  The envelope is NOT RFC 9457 - no application/problem+json, no type/title/
+  detail members. One observed error used a nested JSON envelope
+  {"error": {"code", "message"}}; another returned the same condition as
+  text/plain. An agent cannot rely on either shape.
+format: vendor-json
+rfc9457: false
+problem_json_media_type: false
+envelope:
+  shape: '{"error": {"code": "<string>", "message": "<string>"}}'
+  code_type: string
+  observed_inconsistency: >-
+    The same request (POST /api/book-demo) returned this JSON envelope on one
+    attempt and "Method not allowed\n\nFUNCTION_INVOCATION_FAILED" as
+    text/plain on four others, within the same minute. Error content-type is not
+    stable.
+documented_error_responses: 0
+documented_error_note: >-
+  Both operations in openapi/sitefire-book-demo-api-openapi.yml declare a single
+  '200' response and no error responses. There are no 400, 401, 404, 422, 429 or
+  5xx definitions to derive from.
+problems: []
+observed:
+- status: 405
+  code: '405'
+  title: Method not allowed
+  media_type: application/json
+  body: '{"error": {"code": "405", "message": "Method not allowed"}}'
+  observed_on: POST https://sitefire.ai/api/book-demo
+  source_operation: openapi/sitefire-book-demo-api-openapi.yml#bookDemo
+  documented: false
+  checked: '2026-08-13'
+- status: 405
+  code: null
+  title: Method not allowed
+  media_type: text/plain
+  body: "Method not allowed\n\nFUNCTION_INVOCATION_FAILED"
+  observed_on: POST https://sitefire.ai/api/book-demo
+  note: Platform-level Vercel function invocation failure, not an application error.
+  documented: false
+  checked: '2026-08-13'
+- status: 404
+  code: null
+  title: Not found
+  media_type: text/html
+  body_note: >-
+    Next.js __next_error__ HTML document, ~80KB, x-matched-path "/[...mdxPath]".
+    An HTML error body on a JSON API path - unparseable by a client expecting
+    the documented JSON response.
+  observed_on: GET https://sitefire.ai/api/book-demo/slots
+  source_operation: openapi/sitefire-book-demo-api-openapi.yml#getBookDemoSlots
+  documented: false
+  checked: '2026-08-13'
+- status: 401
+  code: '-32000'
+  title: Unauthorized
+  media_type: application/json
+  body: '{"jsonrpc":"2.0","error":{"code":-32000,"message":"Unauthorized"},"id":null}'
+  observed_on: POST https://app.sitefire.ai/api/mcp
+  note: >-
+    JSON-RPC 2.0 error object from the MCP server, paired with a compliant
+    WWW-Authenticate Bearer challenge naming the protected-resource metadata
+    URL. This is the best-formed error surface Sitefire exposes, and it is the
+    only one that tells a client how to recover.
+  documented: false
+  checked: '2026-08-13'
+gaps:
+- No error responses of any kind are declared in the OpenAPI.
+- No error-code reference page exists in the docs.
+- Error media type is not stable for the same condition (JSON vs text/plain).
+- Quota exhaustion (see rate-limits/) has no documented error or status code.

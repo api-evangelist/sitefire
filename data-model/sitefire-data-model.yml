@@ -1,0 +1,198 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/sitefire-ai/skills/blob/main/CLAUDE.md
+docs:
+- https://sitefire.ai/docs/kpis.md
+- https://sitefire.ai/docs/4c-content-classification.md
+- https://sitefire.ai/docs/geo-overview.md
+- https://sitefire.ai/docs/2026-07-26-ai-sentiment.md
+notes: >-
+  This entity graph could NOT be derived from OpenAPI. The only spec in the repo
+  covers demo booking and its two operations both declare a bare
+  "type: object" response with no properties, so there is no $ref graph and no
+  id-reference field to walk. Everything below is instead SEARCHED from
+  Sitefire's own published domain model: the four core entities and the action
+  lifecycle are stated verbatim in the CLAUDE.md of the official skills plugin,
+  the metric definitions come from the KPIs reference, the classification axes
+  from the 4C diagnosis page, and the sentiment entities from the 2026-07-26
+  product update. Relationships marked inferred are read from the documented
+  lifecycle and tool signatures rather than from a published schema; they are
+  labelled so and never presented as contract.
+  Sitefire publishes no object reference, no id prefixes and no field-level
+  schema for any of these entities. The MCP tool inputSchemas would carry the
+  real shapes but tools/list is auth-gated (401).
+schema_source: prose-documentation
+id_prefixes_published: false
+entity_count: 12
+entities:
+- name: Topic
+  description: >-
+    A keyword or topic cluster monitored across AI models. Carries visibility
+    score, citation rate and competitive positioning.
+  source: CLAUDE.md (verbatim)
+  surfaced_by: [get_topic_positions, get_topic_opportunities]
+  attributes_documented: [visibility score, citation rate, competitive positioning, topic_volume]
+  positioning_states: [winning, losing, competitive, untapped]
+- name: Prompt
+  description: >-
+    An individual question asked of an AI model. Prompts belong to a topic;
+    prompt_volume is topic_volume divided by active prompts in that topic.
+    Prompts can be tagged and sliced by persona, and a subset can be selected
+    for sentiment tracking.
+  source: https://sitefire.ai/docs/kpis.md
+  quota_bound: true
+  quota: rate-limits/sitefire-rate-limits.yml
+- name: Action
+  description: >-
+    A package of work to improve AI visibility for one topic. Created manually
+    or from a recommendation; Sitefire's agents diagnose it and produce a
+    briefing.
+  source: CLAUDE.md (verbatim)
+  surfaced_by: [list_actions, get_action, create_action]
+  types: [CREATE_CONTENT, IMPROVE_CONTENT, EDITORIAL_COVERAGE, ENGAGE_UGC]
+  lifecycle:
+  - action created for a topic (preset type or auto-diagnosed)
+  - diagnosis runs (2-5 min)
+  - briefing generated (1-3 min), action becomes executable
+  - article generation may be triggered (CREATE_CONTENT only, 5-15 min)
+- name: Briefing
+  description: >-
+    The actionable plan attached to an action once diagnosis completes. Contents
+    vary by action type - content structure and outline, specific page changes,
+    pre-written outreach emails, or pre-written forum posts.
+  source: CLAUDE.md (verbatim)
+  surfaced_by: [get_briefing]
+- name: Article
+  description: >-
+    Generated content for a CREATE_CONTENT action, produced by Sitefire's
+    writing agents from the briefing. Pushed to a CMS as a draft.
+  source: CLAUDE.md (verbatim)
+  surfaced_by: [get_article, write_article]
+  fields_documented: [Title, Body, Slug, Excerpt, Date]
+  fields_source: https://sitefire.ai/docs/cms/setup.md
+- name: AI Answer
+  description: >-
+    One model's response to a prompt. Decomposed into background search queries
+    (query fanout), brand mentions, sourced pages and citations.
+  source: https://sitefire.ai/docs/geo-overview.md
+- name: Citation
+  description: >-
+    A link an AI answer includes to a source page. Distinct from a sourced page,
+    which the model read but may not have linked. One page can be cited multiple
+    times in one answer, and each citation is tracked separately.
+  source: https://sitefire.ai/docs/geo-overview.md
+- name: Source page
+  description: A URL cited or sourced in an AI answer, classified by C0 source class.
+  source: https://sitefire.ai/docs/4c-content-classification.md
+  classifications:
+    c0_source_class: [Corporate, Editorial, UGC, Competitor, Own, Reference]
+    c1_content_type: [Blog Post / Article, Product / Feature Page, Category / Listing Page, Landing Page, Video, Interactive Tool, Documentation, Forum / Discussion]
+    c2_content_format: [How-to Guide, Listicle, Definitive Guide, Comparison, Review, Opinion / Thought Piece, Roundup, Statistics Post]
+    c3_content_angle: [angle, freshness, audience, authority signals]
+- name: Competitor
+  description: A rival brand tracked for mentions, citations and sentiment alongside your own.
+  source: https://sitefire.ai/docs/4c-content-classification.md
+- name: Statement
+  description: >-
+    A positive, neutral or negative assertion about a brand detected inside an AI
+    answer. The atom the sentiment score is computed from, NPS-style.
+  source: https://sitefire.ai/docs/2026-07-26-ai-sentiment.md
+- name: Claim
+  description: A grouping of similar statements that say the same thing; carries a polarity.
+  source: https://sitefire.ai/docs/2026-07-26-ai-sentiment.md
+- name: Theme
+  description: >-
+    A subject area a claim belongs to (e.g. Pricing, Customer Service), used to
+    compare against competitors dimension by dimension.
+  source: https://sitefire.ai/docs/2026-07-26-ai-sentiment.md
+relationships:
+- from: Topic
+  to: Prompt
+  type: has_many
+  via: topic
+  confidence: high
+  evidence: 'KPIs formula: prompt_volume = topic_volume / active_prompts_in_topic.'
+- from: Topic
+  to: Action
+  type: has_many
+  via: topic
+  confidence: high
+  evidence: 'CLAUDE.md: "Action - a package of work to improve AI visibility for a topic."'
+- from: Action
+  to: Briefing
+  type: has_one
+  via: briefing_id
+  confidence: high
+  evidence: 'mcp/sitefire-mcp.yml get_action - "Retrieve a single action, including its briefing ID."'
+- from: Briefing
+  to: Article
+  type: has_one
+  via: briefing
+  confidence: high
+  evidence: 'write_article - "Trigger article generation for a CREATE_CONTENT action''s briefing."'
+- from: Prompt
+  to: AI Answer
+  type: has_many
+  via: prompt
+  confidence: high
+  evidence: Each tracked prompt is run against each tracked answer engine.
+- from: AI Answer
+  to: Citation
+  type: has_many
+  via: answer
+  confidence: high
+  evidence: 'geo-overview: "each citation is tracked separately".'
+- from: Citation
+  to: Source page
+  type: belongs_to
+  via: url
+  confidence: high
+- from: Source page
+  to: Topic
+  type: belongs_to
+  via: topic cluster
+  confidence: medium
+  inferred: true
+- from: AI Answer
+  to: Statement
+  type: has_many
+  via: answer
+  confidence: high
+- from: Statement
+  to: Claim
+  type: belongs_to
+  via: claim
+  confidence: high
+  evidence: 'ai-sentiment: "Sitefire groups similar statements from AI answers into one claim".'
+- from: Claim
+  to: Theme
+  type: belongs_to
+  via: theme
+  confidence: high
+  evidence: 'ai-sentiment: "Each claim belongs to a theme".'
+- from: Claim
+  to: Source page
+  type: has_many
+  via: driver
+  confidence: high
+  evidence: >-
+    'ai-sentiment: a cited page that explicitly supports a negative claim is
+    marked a driver.'
+- from: Article
+  to: CMS entry
+  type: has_one
+  via: slug
+  confidence: high
+  evidence: 'cms/setup: articles are upserted by slug as drafts in Framer or Webflow.'
+internal_identifiers_withheld:
+  note: >-
+    The skills bundle instructs agents never to surface Sitefire's internal
+    identifiers, and names three of them - prompt_set, project_members,
+    keyword_id. Recorded because it confirms an internal model wider than the
+    published one, not as a field list to rely on.
+  source: https://github.com/sitefire-ai/skills/blob/main/CLAUDE.md
+gaps:
+- No object reference or field-level schema is published for any entity.
+- No id prefixes or id formats are documented.
+- The OpenAPI carries no schemas to derive from (both responses are bare objects).
+- Real per-entity shapes would come from MCP tools/list inputSchema, which is auth-gated.

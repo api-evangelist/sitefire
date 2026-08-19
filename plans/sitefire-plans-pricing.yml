@@ -1,0 +1,106 @@
+generated: '2026-08-13'
+method: searched
+source: https://sitefire.ai/pricing
+notes: >-
+  Read verbatim from the public pricing page on 2026-08-13. Sitefire prices per
+  seat-less workspace subscription in USD or EUR (a currency toggle switches the
+  displayed prices; only the USD figures are quoted below because the EUR
+  figures render client-side). Every tier is quota-bound rather than
+  call-bound - the meters are tracked prompts, action briefs per month and
+  AI-optimized articles per month, not API requests. MCP access is included on
+  every paid tier, including the entry plan, which is unusual: the agent surface
+  is not gated behind Enterprise. No overage pricing is published for any tier;
+  the page states limits and stops, so exceeding a quota is not priced.
+plan_count: 3
+currency: [USD, EUR]
+billing_period: monthly
+free_trial:
+  available: true
+  length_days: 7
+  card_required: unknown
+  terms: '7-day free trial, cancel anytime'
+overage_published: false
+overage_note: >-
+  No overage or top-up price is published for prompts, briefs or articles on any
+  tier. The comparison table gives hard numbers per tier and nothing about what
+  happens past them.
+minimum_contract:
+  published: false
+  note: >-
+    The FAQ carries a "What is the minimum contract duration?" question, but the
+    answer renders client-side and was not captured. Recorded as unread rather
+    than guessed.
+plans:
+- name: Lite
+  price: 249
+  currency: USD
+  period: month
+  billing: monthly
+  audience: Small brands wanting to get started with monitoring and content.
+  cta: Start free trial
+  quotas:
+    tracked_prompts: 150
+    sentiment_tracked_prompts: 0
+    action_briefs_per_month: 8
+    ai_optimized_articles_per_month: 3
+    answer_engines_tracked: 3
+  answer_engines_note: 3 of ChatGPT, Gemini, Perplexity, AI Overview, AI Mode
+  features:
+  - MCP access
+  - Google Search Console integration
+  excluded:
+  - Sentiment tracking
+  - CMS integration
+  - Brand Kit
+  - Personas
+  - Agent Analytics
+  - Personal onboarding call
+- name: Pro
+  price: 499
+  currency: USD
+  period: month
+  billing: monthly
+  most_popular: true
+  audience: Growing brands that want to monitor and create content.
+  cta: Start for free
+  quotas:
+    tracked_prompts: 300
+    sentiment_tracked_prompts: 30
+    action_briefs_per_month: 18
+    ai_optimized_articles_per_month: 8
+    answer_engines_tracked: 3
+  answer_engines_note: 3 of ChatGPT, Gemini, Perplexity, AI Overview, AI Mode
+  features:
+  - Everything in Lite
+  - MCP access
+  - Google Search Console integration
+  - Sentiment tracking
+  - CMS integration
+  - Brand Kit
+  - Personas
+  - Agent Analytics
+  - Personal onboarding call
+- name: Enterprise
+  price: null
+  price_label: Custom
+  currency: USD
+  period: month
+  audience: Full-service AI search optimization and content creation, done for you.
+  cta: Talk to us
+  contact: https://pulse.cal.com/sitefire/intro
+  quotas:
+    tracked_prompts: unlimited
+    sentiment_tracked_prompts: unlimited
+    action_briefs_per_month: unlimited
+    ai_optimized_articles_per_month: unlimited
+    answer_engines_tracked: all + custom
+  answer_engines_note: ChatGPT, Gemini, Perplexity, AI Overview, AI Mode + custom models
+  features:
+  - Everything in Sitefire Pro
+  - Custom models and prompt limits
+  - Custom CMS integrations
+  - Dedicated Slack support
+x-evidence:
+- url: https://sitefire.ai/pricing
+  http_status: 200
+  checked: '2026-08-13'

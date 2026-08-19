@@ -26,23 +26,24 @@ No API key required. The API is public.
 
 - [AI Models](https://sitefire.ai/docs/visibility-tracking.md): Supported AI platforms and markets for visibility tracking.
 - [Talk to Us](https://sitefire.ai/docs/talk-to-us.md): Get help from the Sitefire team - whether you have a question, need troubleshooting, or want to share feedback.
-- [remove-category](https://sitefire.ai/docs/remove-category.md): 
+- [Remove a category](https://sitefire.ai/docs/remove-category.md): Delete a prompt category you no longer need from the Sitefire prompt toolbar, and see what happens to the reports that already use it.
 - [Quick Start](https://sitefire.ai/docs/quick-start.md): Get started with Sitefire in 5 minutes.
 - [MCP](https://sitefire.ai/docs/mcp.md): Connect Sitefire MCP (Spark) to your workspace.
 - [KPIs](https://sitefire.ai/docs/kpis.md): Definitions, formulas, and how-to-read guidance for every metric in Sitefire - visibility, citations, crawlers, and AI referrals.
-- [Sitefire Documentation](https://sitefire.ai/docs/index.md): Learn how Sitefire tracks your brand's visibility in AI-generated answers and helps you improve it.
+- [Documentation](https://sitefire.ai/docs/index.md): Learn how Sitefire tracks your brand's visibility in AI-generated answers and helps you improve it.
 - [AI Answer](https://sitefire.ai/docs/geo-overview.md): How AI-generated answers work - brand mentions, search queries, sourced pages, and citations.
 - [Diagnosis](https://sitefire.ai/docs/4c-content-classification.md): How Sitefire uses 4C classification to determine why your content is not being cited by AI engines - and what to do about it.
+- [Introducing AI Sentiment](https://sitefire.ai/docs/2026-07-26-ai-sentiment.md): Sentiment is not just a score. Our claims and themes show you what AI says about your brand across thousands of answers.
 - [Organize, inspect, and personalize your prompts](https://sitefire.ai/docs/2026-06-19-tags-personas-prompt-details.md): Three updates that make your prompt list easier to organize, dig into, and slice by persona.
 - [Prompt Research, weekly opportunities, and new connectors](https://sitefire.ai/docs/2026-06-08-research-opportunities-connectors.md): Find the prompts worth tracking, act on the opportunities that matter most each week, and connect your whole stack to Sitefire.
 - [Better actions with Brand kit and new output formats](https://sitefire.ai/docs/2026-05-27-actions-and-brand-kit.md): Brand Kit now guides every recommendation, and action formats are clearer about what to do, why, and how.
 - [Google Analytics (GA4)](https://sitefire.ai/docs/tracking/google-analytics.md): Create a dedicated AI traffic channel in GA4 to track referral visits from ChatGPT, Perplexity, Claude, and other AI platforms.
 - [Cloudflare](https://sitefire.ai/docs/tracking/cloudflare.md): Use Cloudflare's AI Crawl Control dashboard to analyze AI bot traffic, or connect to Sitefire for automated tracking.
 - [AWS CloudFront](https://sitefire.ai/docs/tracking/aws.md): Connect your CloudFront access logs to Sitefire to track AI bot crawl traffic across your site.
-- [webflow](https://sitefire.ai/docs/cms/webflow.md): 
-- [webflow-tables](https://sitefire.ai/docs/cms/webflow-tables.md): 
+- [Webflow](https://sitefire.ai/docs/cms/webflow.md): Generate a Webflow API token with the right CMS permissions and connect it in Sitefire, so articles publish to your Webflow site as drafts.
+- [Webflow tables](https://sitefire.ai/docs/cms/webflow-tables.md): Webflow's rich-text field strips HTML tables. Move the markup Sitefire ships with your article into an HTML Embed block so it renders live.
 - [CMS Integrations](https://sitefire.ai/docs/cms/setup.md): Push articles to Framer or Webflow as drafts. Connect your CMS, map fields, and publish from sitefire.
-- [framer](https://sitefire.ai/docs/cms/framer.md): 
+- [Framer](https://sitefire.ai/docs/cms/framer.md): Create a Framer API key and connect it in Sitefire, so finished articles publish straight into your Framer CMS as drafts you review.
 - [Improve Content](https://sitefire.ai/docs/actions/improve-content.md): The diagnosis found your page matches the right content type and format but isn't getting cited. Sitefire scores it with the GEO Score and generates specific improvements.
 - [Engage UGC](https://sitefire.ai/docs/actions/engage-ugc.md): When AI engines primarily cite user-generated content like Reddit and Stack Overflow, the strategy is to participate where citations happen.
 - [Editorial Coverage](https://sitefire.ai/docs/actions/editorial-coverage.md): When AI engines primarily cite editorial publications, the strategy is to earn coverage from the outlets that get cited.
@@ -50,3 +51,18 @@ No API key required. The API is public.
 
 ## Blog
 
+- [Do AI Citations Actually Matter? What 354,004 AI Answers Show](https://sitefire.ai/blog/do-ai-citations-matter.md): Sitefire research across 354,004 AI answers on what an AI citation is worth, and why being sourced without being cited pays almost nothing.
+- [Why AI Models Recommend the Same Brands but Cite Different Sources](https://sitefire.ai/blog/ai-engines-cite-different-sources.md): Sitefire research on why ChatGPT, Gemini and Google AI Mode cite different sources for the same prompt, and what it means for your AI visibility.
+- [Google Is Liable for What Its AI Overviews Say: Inside the Munich Ruling](https://sitefire.ai/blog/google-ai-overviews-liability-munich-ruling.md): A Munich court held Google liable for false AI Overviews. The legal reasoning, the precedents, and what AI Overviews liability means for brands.
+- [How to Measure GEO Beyond Prompt Monitoring](https://sitefire.ai/blog/geo-measurement-stack.md): Prompt monitoring is a useful start, but it only measures synthetic visibility. The real GEO measurement stack adds Cloudflare bot data and GA4 referrals.
+- [Trustpilot's AI Search Earnings: The First Proof That AI Visibility Drives Revenue](https://sitefire.ai/blog/trustpilot-ai-search-revenue.md): Trustpilot's AI search click-throughs grew 1,490% YoY and the stock surged 25%. What the first AI search earnings report reveals about brand visibility.
+- [AI Content Is Good Enough - But Good Enough for What?](https://sitefire.ai/blog/ai-content-quality-shift.md): AI content can rank in Google. But can it earn citations in AI search? Analysis of 25M+ citations reveals what actually gets cited - and it's not production quality.
+- [How to Detect AI Agents Like OpenClaw Visiting Your Website](https://sitefire.ai/blog/detect-ai-agent-traffic-openclaw.md): AI agents like OpenClaw send Accept: text/markdown - a header no browser uses. Learn how to detect agent traffic on Vercel, Cloudflare, Nginx, and more.
+- [Query Fan-Out: What AI Search Actually Does With Your Query](https://sitefire.ai/blog/query-fan-out.md): AI search rewrites every query into 5-20 separate searches before answering. Learn how query fan-out works and why 68% of AI-cited pages aren't in the top 10.
+- [How to Run a GEO Audit on Your Website](https://sitefire.ai/blog/how-to-run-a-geo-audit-on-your-website.md): A 6-step framework to audit your AI search visibility across ChatGPT, Gemini, and more. Covers content structure, schema markup, and competitor benchmarking.
+- [How AI Search Engines Actually Work: From Prompt to Citation](https://sitefire.ai/blog/how-ai-search-engines-actually-work-from-prompt-to-citation.md): The full pipeline behind AI search: query fan-out, Reciprocal Rank Fusion, and why only 12% of ChatGPT citations overlap with Google results.
+- [Global AI search engine market share](https://sitefire.ai/blog/model-market-share-jan-2026.md): Google Search is now showing AI-infused content in 78% of sessions. ChatGPT has a 56% share of the AI search market.
+
+## Case studies
+
+- [Pointhound: +300% site visits from AI Search](https://sitefire.ai/case-studies/pointhound): How Pointhound used Sitefire to find the award-travel questions it could win in AI answers and create content for them. Site visits from AI Search grew 300%, AI bot traffic 294%, and the new content went from zero to roughly half of all AI bot traffic. Measured in Pointhound's own CDN logs and GA4.

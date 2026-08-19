@@ -1,0 +1,99 @@
+generated: '2026-08-13'
+method: searched
+source: https://sitefire.ai/docs/index.md
+notes: >-
+  Sitefire publishes dated product updates but no API lifecycle policy of any
+  kind - no versioning scheme, no deprecation policy, no Sunset/Deprecation
+  header support, no SLA and no status page. status.sitefire.ai does not
+  resolve in DNS and sitefire.ai/status returns 404, so no StatusPage pointer is
+  emitted. Neither is a Deprecation pointer, because no deprecation policy
+  exists to point at.
+  The material finding this round is availability, not policy: BOTH operations
+  of the only public REST contract Sitefire documents failed when probed.
+versioning:
+  scheme: none-published
+  current: null
+  docs: null
+  note: >-
+    The Book Demo OpenAPI carries info.version "1.0" but the API itself has no
+    version segment in its path and Sitefire publishes no versioning policy. The
+    MCP endpoint https://app.sitefire.ai/api/mcp is likewise unversioned; the MCP
+    protocol version is negotiated per session rather than pinned in the URL.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: No deprecation or sunset policy is published, and no RFC 8594 headers were observed.
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No SLA is published. The Terms of Service explicitly disclaim uninterrupted
+    availability - "SITEFIRE DISCLAIMS ALL WARRANTIES ... INCLUDING FITNESS FOR A
+    PARTICULAR PURPOSE OR UNINTERRUPTED AVAILABILITY."
+status_page: null
+status_page_note: >-
+  Probed 2026-08-13: status.sitefire.ai does not resolve (NXDOMAIN),
+  sitefire.ai/status returns 404. No third-party status page (Statuspage,
+  Instatus, BetterStack) is linked from the docs, pricing page or footer.
+support:
+  email: support@sitefire.ai
+  booking: https://pulse.cal.com/sitefire/intro
+  docs: https://sitefire.ai/docs/talk-to-us.md
+  response_target: 'typically within a few hours on business days (stated in docs, not an SLA)'
+  enterprise: Dedicated Slack support (Enterprise tier only)
+changelog: changelog/sitefire-changelog.yml
+deprecated_operations: []
+availability_probe:
+  checked: '2026-08-13'
+  summary: >-
+    Neither documented Book Demo operation resolved. The GET route falls through
+    to the marketing site's Next.js MDX catch-all and 404s; the POST route
+    reaches a serverless function that fails to invoke. The API is documented as
+    live in Sitefire's own llms.txt, which still carries working curl examples
+    for both calls. This is recorded as measured behaviour, not as a claim about
+    intent - the surface may have been retired without the docs being updated,
+    or it may be a deployment fault. The OpenAPI in openapi/ is left untouched
+    and still describes what the provider documents.
+  results:
+  - operation: getBookDemoSlots
+    request: GET https://sitefire.ai/api/book-demo/slots?date=2026-08-20&timezone=America/New_York
+    http_status: 404
+    content_type: text/html
+    evidence: >-
+      Response carried x-matched-path "/[...mdxPath]" and the Next.js
+      __next_error__ document, meaning no API route is registered at this path.
+    repeated: 2
+  - operation: bookDemo
+    request: POST https://sitefire.ai/api/book-demo
+    http_status: 405
+    content_type: text/plain
+    body: "Method not allowed\n\nFUNCTION_INVOCATION_FAILED"
+    evidence: >-
+      Returned on 4 of 5 attempts, with a Vercel invocation id. One earlier
+      attempt returned the same 405 as application/json with the body
+      {"error": {"code": "405", "message": "Method not allowed"}}. Both shapes
+      were observed within the same minute.
+    repeated: 5
+  - operation: bookDemo (preflight)
+    request: OPTIONS https://sitefire.ai/api/book-demo
+    http_status: 405
+    repeated: 1
+  note: >-
+    robots.txt disallows /api/ for all user agents, which is a crawling
+    directive rather than an access control, and does not explain a 404 or a
+    function invocation failure.
+x-evidence:
+- url: https://sitefire.ai/api/book-demo/slots?date=2026-08-20&timezone=America/New_York
+  http_status: 404
+  checked: '2026-08-13'
+- url: https://sitefire.ai/api/book-demo
+  http_status: 405
+  checked: '2026-08-13'
+- url: https://sitefire.ai/status
+  http_status: 404
+  checked: '2026-08-13'
+- url: https://status.sitefire.ai
+  http_status: 0
+  note: DNS NXDOMAIN
+  checked: '2026-08-13'

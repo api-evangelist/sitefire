@@ -1,0 +1,110 @@
+generated: '2026-08-13'
+method: searched
+source: https://sitefire.ai/pricing
+docs: https://sitefire.ai/docs/mcp.md
+notes: >-
+  Sitefire publishes NO HTTP rate limits. There is no rate-limit section in the
+  docs, the MCP page says nothing about throttling, and no RateLimit-*,
+  X-RateLimit-* or Retry-After header was observed on any live response probed
+  on 2026-08-13 (the MCP 401 challenge, the 405 from /api/book-demo, and the 404
+  from /api/book-demo/slots all carried none). What Sitefire does publish is a
+  set of hard monthly QUOTAS attached to each pricing tier, so the limits below
+  are account-scoped consumption ceilings measured in product units - tracked
+  prompts, action briefs, generated articles - not requests per second. They are
+  the real ceiling an agent driving the MCP tools will hit: write_article is
+  bounded by the articles-per-month quota and create_action by the briefs-per-
+  month quota, and neither surfaces a documented error or header when exhausted.
+  That gap is the finding: an agent cannot detect exhaustion from the wire.
+limit_count: 8
+headers_published: false
+headers_observed: []
+exhaustion_status_code: null
+exhaustion_note: >-
+  Undocumented. No published status code, error code or header for a quota-
+  exhausted request. Not observable without an authenticated account.
+retry_after_supported: unknown
+limits:
+- name: Tracked prompts (Lite)
+  scope: per-account
+  plan: Lite
+  window: concurrent
+  limit: 150
+  unit: prompts
+  kind: quota
+  source: https://sitefire.ai/pricing
+- name: Tracked prompts (Pro)
+  scope: per-account
+  plan: Pro
+  window: concurrent
+  limit: 300
+  unit: prompts
+  kind: quota
+  source: https://sitefire.ai/pricing
+- name: Sentiment-tracked prompts (Pro)
+  scope: per-account
+  plan: Pro
+  window: concurrent
+  limit: 30
+  unit: prompts
+  kind: quota
+  source: https://sitefire.ai/docs/2026-07-26-ai-sentiment.md
+- name: Action briefs (Lite)
+  scope: per-account
+  plan: Lite
+  window: month
+  limit: 8
+  unit: briefs
+  kind: quota
+  mcp_tool: create_action
+  source: https://sitefire.ai/pricing
+- name: Action briefs (Pro)
+  scope: per-account
+  plan: Pro
+  window: month
+  limit: 18
+  unit: briefs
+  kind: quota
+  mcp_tool: create_action
+  source: https://sitefire.ai/pricing
+- name: AI-optimized articles (Lite)
+  scope: per-account
+  plan: Lite
+  window: month
+  limit: 3
+  unit: articles
+  kind: quota
+  mcp_tool: write_article
+  source: https://sitefire.ai/pricing
+- name: AI-optimized articles (Pro)
+  scope: per-account
+  plan: Pro
+  window: month
+  limit: 8
+  unit: articles
+  kind: quota
+  mcp_tool: write_article
+  source: https://sitefire.ai/pricing
+- name: Answer engines tracked (Lite and Pro)
+  scope: per-account
+  plan: [Lite, Pro]
+  window: concurrent
+  limit: 3
+  unit: answer engines
+  kind: quota
+  note: 3 selected from ChatGPT, Gemini, Perplexity, AI Overview, AI Mode. Enterprise is unlimited plus custom models.
+  source: https://sitefire.ai/pricing
+enterprise_note: >-
+  The Enterprise tier is published as unlimited on every meter, with custom
+  models and prompt limits negotiated. No numbers are published.
+x-evidence:
+- url: https://sitefire.ai/pricing
+  http_status: 200
+  checked: '2026-08-13'
+- url: https://app.sitefire.ai/api/mcp
+  http_status: 401
+  note: no rate-limit headers on the response
+  checked: '2026-08-13'
+- url: https://sitefire.ai/api/book-demo
+  http_status: 405
+  note: no rate-limit headers on the response
+  checked: '2026-08-13'

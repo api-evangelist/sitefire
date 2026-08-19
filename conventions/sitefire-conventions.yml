@@ -1,0 +1,115 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/sitefire-book-demo-api-openapi.yml
+docs: https://sitefire.ai/docs/mcp.md
+notes: >-
+  Sitefire publishes no API design guide, so these conventions were derived from
+  the one OpenAPI in the repo, the provider-published MCP/skills bundle, and
+  live probes on 2026-08-13. The honest headline is that Sitefire's two surfaces
+  carry almost none of the cross-cutting runtime semantics an agent needs:
+  there is NO idempotency contract, NO pagination, NO request-id tracing header,
+  NO versioning scheme and NO rate-limit signalling. No Idempotency pointer is
+  emitted in apis.yml, because no idempotency key, header or retry contract
+  exists on either surface - emitting one would be a fabricated 9-point claim.
+  What Sitefire does do well is agent-side convention: the skills bundle ships
+  explicit operating rules ("Ask before creating new actions or triggering
+  article generation unless the user explicitly requested it") which function as
+  a human-in-the-loop convention for the two destructive-ish MCP tools.
+surfaces:
+- name: Book Demo REST API
+  base: https://sitefire.ai/api
+  style: REST/JSON
+  spec: openapi/sitefire-book-demo-api-openapi.yml
+  status: documented-but-not-resolving (see lifecycle/)
+- name: Sitefire MCP (Spark)
+  base: https://app.sitefire.ai/api/mcp
+  style: JSON-RPC 2.0 over Streamable HTTP (MCP)
+  spec: mcp/sitefire-mcp.yml
+  status: live, auth-gated
+authentication:
+  rest: none - documented as public, no securityScheme declared
+  mcp: OAuth 2.1 bearer, header only; RFC 9728 protected-resource metadata at /api/mcp/oauth-metadata
+  detail: authentication/sitefire-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  scope: null
+  retention: null
+  evidence: >-
+    No Idempotency-Key parameter appears in the OpenAPI, no idempotency is
+    documented for the MCP tools, and the two mutating MCP tools (create_action,
+    write_article) publish no dedupe key. POST /api/book-demo takes no client-
+    supplied request identifier, so a retried booking is a second booking.
+  agent_impact: >-
+    A retried write_article call after a timeout may bill a second article
+    against the monthly quota with no way to detect the duplicate. The published
+    skills mitigate this socially, not technically, by telling the agent to ask
+    the user first.
+pagination:
+  supported: false
+  style: null
+  evidence: >-
+    Neither REST operation takes a page, cursor, limit or offset parameter.
+    Among the MCP tools only get_topic_positions documents a modifier (view=all),
+    which is a scope switch rather than pagination. No page-size ceiling or
+    next-cursor field is published.
+field_expansion:
+  supported: false
+sparse_fields:
+  supported: false
+metadata:
+  supported: false
+  note: No customer-supplied metadata field is exposed on any documented object.
+request_tracing:
+  request_id_header: null
+  provider_headers_observed: [x-vercel-id, cf-ray]
+  note: >-
+    No first-party correlation header. The only per-request identifiers on the
+    wire come from the hosting layer - Vercel's x-vercel-id and Cloudflare's
+    cf-ray - which are infrastructure ids, not documented as supportable
+    references.
+versioning:
+  scheme: none-published
+  detail: lifecycle/sitefire-lifecycle.yml
+error_envelope:
+  rfc9457: false
+  shape: '{"error": {"code": "<string>", "message": "<string>"}}'
+  stable: false
+  detail: errors/sitefire-problem-types.yml
+rate_limit_signalling:
+  headers: []
+  supported: false
+  detail: rate-limits/sitefire-rate-limits.yml
+content_negotiation:
+  request: application/json
+  response: application/json
+  docs_markdown_twin: >-
+    Every documentation page is served twice - as HTML at /docs/<page> and as
+    raw markdown at /docs/<page>.md - and the markdown twin is what llms.txt
+    links. This is a genuine agent-facing convention and the strongest
+    machine-readability signal on the marketing surface.
+agent_conventions:
+  source: https://github.com/sitefire-ai/skills
+  human_in_the_loop: >-
+    "Ask before creating new actions or triggering article generation unless the
+    user explicitly requested it." - published rule, applies to create_action
+    and write_article.
+  tool_preference: >-
+    "Prefer a Sitefire tool call over guessing from general knowledge."
+  read_before_write: >-
+    "When the user asks 'what can we write?' - check existing actions FIRST
+    (list_actions), then offer to discover new topics if needed."
+  terminology: >-
+    Published vocabulary rules: say "action" not "project", "topic" not
+    "keyword"; never surface internal identifiers (prompt_set, project_members,
+    keyword_id).
+crawler_policy:
+  robots: well-known/sitefire-robots.txt
+  content_signal: 'search=yes, ai-input=yes, ai-train=yes'
+  disallow: [/api/]
+cross_links:
+  errors: errors/sitefire-problem-types.yml
+  lifecycle: lifecycle/sitefire-lifecycle.yml
+  authentication: authentication/sitefire-authentication.yml
+  rate_limits: rate-limits/sitefire-rate-limits.yml
+  data_model: data-model/sitefire-data-model.yml

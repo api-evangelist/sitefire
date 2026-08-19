@@ -1,0 +1,83 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/sitefire-ai/skills
+notes: >-
+  Sitefire ships no client SDK. npm, PyPI, RubyGems, crates.io, NuGet, Maven
+  Central, Packagist and pkg.go.dev were all searched for a first-party Sitefire
+  library and none exists - an npm registry search for "sitefire" returns zero
+  packages and pypi.org/pypi/sitefire/json returns 404. The one first-party
+  distributable is the Agent Skills plugin in the sitefire-ai GitHub org, which
+  is not published to any package registry: it is installed straight from the
+  repo default branch with `npx skills add sitefire-ai/skills`. That
+  distribution is UNPINNED - the repo carries no tags and no releases, so the
+  install command always resolves to whatever is on `main`, and a consumer
+  cannot state which version they installed. version is therefore recorded as
+  null with the repo's last-push date, which is the only dated signal available.
+  No SDKs pointer is emitted in apis.yml, because a skills/MCP plugin is not a
+  client library and claiming it as one would be false.
+sdk_count: 0
+packages:
+- language: markdown
+  registry: github
+  name: sitefire-ai/skills
+  url: https://github.com/sitefire-ai/skills
+  install: npx skills add sitefire-ai/skills
+  official: true
+  kind: agent-plugin
+  description: >-
+    Sitefire Agent Plugin - the Anthropic Agent Skills bundle that pairs with the
+    hosted MCP server. Contains .claude-plugin/plugin.json, .mcp.json (which
+    wires the http transport to https://app.sitefire.ai/api/mcp), CLAUDE.md
+    product knowledge, and four SKILL.md workflow skills.
+  version: null
+  published: null
+  version_note: >-
+    Checked 2026-08-13. The GitHub Releases and Tags APIs both return an empty
+    list for this repo, and the package is not on npm, so there is no version
+    string to record. The distribution floats to the default branch (main).
+    Last commit pushed 2026-04-09.
+  last_pushed: '2026-04-09'
+  default_branch: main
+  license: null
+  license_note: The repo publishes no LICENSE file.
+  clients: [Claude Code, Codex, Cursor, Gemini CLI]
+  contents:
+  - .claude-plugin/plugin.json
+  - .mcp.json
+  - CLAUDE.md
+  - skills/sitefire/SKILL.md
+  - skills/sitefire-actions/SKILL.md
+  - skills/sitefire-discover/SKILL.md
+  - skills/sitefire-write-all/SKILL.md
+  see_also: skills/_index.yml
+registries_checked:
+- registry: npm
+  query: https://registry.npmjs.org/-/v1/search?text=sitefire
+  result: no first-party package
+  checked: '2026-08-13'
+- registry: pypi
+  query: https://pypi.org/pypi/sitefire/json
+  result: 404
+  checked: '2026-08-13'
+- registry: github
+  query: https://api.github.com/orgs/sitefire-ai/repos
+  result: 1 public repo (skills); no SDK repo
+  checked: '2026-08-13'
+- registry: rubygems
+  result: not published
+  checked: '2026-08-13'
+- registry: crates.io
+  result: not published
+  checked: '2026-08-13'
+- registry: nuget
+  result: not published
+  checked: '2026-08-13'
+- registry: maven-central
+  result: not published
+  checked: '2026-08-13'
+- registry: pkg.go.dev
+  result: not published
+  checked: '2026-08-13'
+- registry: packagist
+  result: not published
+  checked: '2026-08-13'

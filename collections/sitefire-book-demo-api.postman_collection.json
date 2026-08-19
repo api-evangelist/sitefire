@@ -1,0 +1,217 @@
+{
+  "item": [
+    {
+      "id": "c4a93bf9-6110-46ae-9d45-26288b8c585a",
+      "name": "Book Demo",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3026e3d4-4268-42de-a8a2-e187c0aac7bf",
+          "name": "List available demo slots",
+          "request": {
+            "name": "List available demo slots",
+            "description": {
+              "content": "Returns the available product-demo time slots for a given date and timezone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "book-demo",
+                "slots"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) Target date in YYYY-MM-DD format."
+                },
+                {
+                  "disabled": false,
+                  "key": "timezone",
+                  "value": "<string>",
+                  "description": "(Required) IANA timezone name used to render the slots."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "134be8df-2a34-4ed5-a58e-1459d9ecd1ec",
+              "name": "Available slots for the requested date.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "book-demo",
+                    "slots"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-07-28"
+                    },
+                    {
+                      "key": "timezone",
+                      "value": "America/New_York"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "92e132c2-5ba4-4c85-a4e6-8180ec8db6da",
+          "name": "Book a demo slot",
+          "request": {
+            "name": "Book a demo slot",
+            "description": {
+              "content": "Books one of the available demo slots returned by getBookDemoSlots.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "book-demo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<email>\",\n  \"time\": \"<string>\",\n  \"timezone\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "eb7628d0-239a-4ee5-aa71-e66fa634cae0",
+              "name": "Demo booking confirmation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "book-demo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Your Name\",\n  \"email\": \"you@company.com\",\n  \"time\": \"<string>\",\n  \"timezone\": \"America/New_York\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sitefire.ai/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "489fe1a5-065a-454b-b0bd-14cb3a592131",
+    "name": "Sitefire Book-a-Demo Book Demo API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public, unauthenticated REST API for programmatically booking a product demo with Sitefire. Documented in Sitefire's llms.txt. No API key is required. This is the only public REST API Sitefire currently documents; the primary programmatic surface is the hosted MCP server at https://app.sitefire.ai/api/mcp.\n\nContact Support:\n Name: Sitefire\n Email: support@sitefire.ai",
+      "type": "text/plain"
+    }
+  }
+}

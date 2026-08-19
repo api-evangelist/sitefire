@@ -1,0 +1,85 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Sitefire Book Demo API
+  version: 1.0.0
+extends: openapi/sitefire-book-demo-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: >-
+  Derived from this repo's enrichment artifacts and from live probes of
+  https://sitefire.ai/api on 2026-08-13. This overlay records API Evangelist
+  annotations only; it never mutates the harvested specification, and it does
+  not add operations, schemas or responses that Sitefire does not publish. The
+  availability annotations describe what we observed, not what the provider
+  claims.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-slug: sitefire
+    x-apievangelist-artifacts:
+      authentication: authentication/sitefire-authentication.yml
+      conventions: conventions/sitefire-conventions.yml
+      errors: errors/sitefire-problem-types.yml
+      lifecycle: lifecycle/sitefire-lifecycle.yml
+      conformance: conformance/sitefire-conformance.yml
+      data_model: data-model/sitefire-data-model.yml
+      rate_limits: rate-limits/sitefire-rate-limits.yml
+      plans: plans/sitefire-plans-pricing.yml
+      mcp: mcp/sitefire-mcp.yml
+    x-apievangelist-note: >-
+      This is not Sitefire's product API. It books a sales demo. Sitefire's
+      product surface is the hosted MCP server at
+      https://app.sitefire.ai/api/mcp, which has no public REST equivalent - see
+      mcp/sitefire-tool-crosswalk.yml.
+- target: $.info
+  update:
+    x-authentication:
+      required: false
+      note: Documented as public in https://sitefire.ai/llms.txt - "No API key required. The API is public."
+    x-idempotency:
+      supported: false
+      note: No idempotency key is accepted. A retried POST /book-demo is a second booking.
+    x-rate-limits:
+      published: false
+      headers: []
+    x-error-envelope:
+      rfc9457: false
+      shape: '{"error": {"code": "<string>", "message": "<string>"}}'
+      stable: false
+- target: $.servers[0]
+  update:
+    x-availability:
+      checked: '2026-08-13'
+      status: unreachable
+      note: >-
+        Both documented routes failed when probed from this base. GET
+        /book-demo/slots returned 404 through the site's Next.js MDX catch-all;
+        POST /book-demo returned 405 with FUNCTION_INVOCATION_FAILED. Detail in
+        lifecycle/sitefire-lifecycle.yml.
+      robots: 'robots.txt disallows /api/ for all user agents (crawling directive only).'
+- target: $.paths['/book-demo/slots'].get
+  update:
+    x-agentic-access:
+      action-class: connected
+      consequence: read
+    x-availability:
+      checked: '2026-08-13'
+      observed_status: 404
+      observed_content_type: text/html
+    x-undocumented-responses:
+      note: The specification declares only a 200. No 4xx or 5xx response is defined.
+- target: $.paths['/book-demo'].post
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      human-in-the-loop: recommended
+      note: >-
+        Books a real meeting with a human sales team on behalf of a named person
+        and email address. An agent should confirm with the user before calling.
+    x-availability:
+      checked: '2026-08-13'
+      observed_status: 405
+      observed_body: "Method not allowed / FUNCTION_INVOCATION_FAILED"
+    x-undocumented-responses:
+      note: The specification declares only a 200. No 4xx or 5xx response is defined.

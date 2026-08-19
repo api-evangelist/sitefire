@@ -1,0 +1,93 @@
+generated: '2026-08-13'
+method: derived
+source: mcp/sitefire-mcp.yml + openapi/sitefire-book-demo-api-openapi.yml
+notes: >-
+  This crosswalk records a total divergence, and that is the finding. Sitefire
+  has both an MCP server and an OpenAPI, but they describe entirely different
+  products: every one of the ten MCP tools operates on AI-visibility data
+  (topics, actions, briefings, articles) and neither of the two REST operations
+  does - they book a sales demo. There is not a single tool-to-operation
+  binding to make. crosswalk[] is therefore empty by measurement, not by
+  omission: all ten tools are mcp_only and both REST operations are rest_only.
+  The practical consequence is that Sitefire's real product API has no public
+  REST contract at all. The MCP server IS the API, and its input schemas are
+  reachable only with an authenticated tools/list - an anonymous POST returns
+  401. Tool names and descriptions below are the provider's own, harvested from
+  the official sitefire-ai/skills bundle; because tools/list is gated, no tool
+  below carries a verified inputSchema, and none is asserted.
+surfaces:
+  openapi:
+    file: openapi/sitefire-book-demo-api-openapi.yml
+    base: https://sitefire.ai/api
+    operations: 2
+    gated: false
+    note: >-
+      Public and unauthenticated by documentation, but both routes failed to
+      resolve when probed on 2026-08-13 (see lifecycle/).
+  mcp:
+    url: https://app.sitefire.ai/api/mcp
+    transport: http
+    tools: 10
+    gated: true
+    gate_evidence: >-
+      POST tools/list returned HTTP 401 with
+      WWW-Authenticate Bearer resource_metadata="https://app.sitefire.ai/api/mcp/oauth-metadata"
+      on 2026-08-13. Tool inputSchemas require an authenticated introspection.
+    tool_list_source: https://github.com/sitefire-ai/skills
+  graphql:
+    endpoint: null
+    note: No GraphQL surface was found on either host.
+crosswalk: []
+mcp_only:
+- tool: get_visibility_overview
+  category: analytics
+  reason: No public REST operation exposes visibility scores. REST covers demo booking only.
+- tool: get_topic_positions
+  category: analytics
+  reason: No public REST operation exposes topic positioning.
+- tool: get_topic_opportunities
+  category: analytics
+  reason: No public REST operation exposes recommended topics.
+- tool: get_source_performance
+  category: analytics
+  reason: No public REST operation exposes per-page citation performance.
+- tool: list_actions
+  category: actions
+  reason: No public REST operation lists actions.
+- tool: get_action
+  category: actions
+  reason: No public REST operation retrieves an action.
+- tool: get_briefing
+  category: actions
+  reason: No public REST operation retrieves a briefing.
+- tool: get_article
+  category: content
+  reason: No public REST operation retrieves a generated article.
+- tool: create_action
+  category: actions
+  reason: >-
+    No public REST operation creates an action. Mutating; the published skills
+    rule requires asking the user before invoking it.
+- tool: write_article
+  category: content
+  reason: >-
+    No public REST operation triggers article generation. Mutating and quota-
+    consuming (articles per month, see rate-limits/); the published skills rule
+    requires asking the user before invoking it.
+rest_only:
+- capability: Demo booking
+  operations: [getBookDemoSlots, bookDemo]
+  reason: >-
+    Sales-funnel surface, not product data. No MCP tool books a demo, and the
+    skills bundle never references it.
+  note: Both operations returned non-2xx when probed on 2026-08-13.
+coverage:
+  tools_named: 10
+  tools_bound_to_rest: 0
+  tools_with_verified_input_schema: 0
+  mcp_only: 10
+  rest_operations_total: 2
+  rest_operations_with_tool: 0
+  rest_only: 2
+  binding_rate: 0.0
+  overlap: none

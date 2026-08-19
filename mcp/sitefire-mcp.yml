@@ -2,13 +2,10 @@ generated: '2026-07-21'
 method: searched
 status: published
 source: https://sitefire.ai/docs/mcp.md
-notes: >-
-  Sitefire ships an official hosted remote MCP server ("Spark"). Connect via the
-  URL below; authorization is an OAuth browser sign-in to your Sitefire account.
-  Tool names below are harvested verbatim from the official plugin
-  (github.com/sitefire-ai/skills: CLAUDE.md + workflow SKILL.md files), which
-  drive these MCP tools. The published skills bundle installs via
-  `npx skills add sitefire-ai/skills`.
+notes: 'Sitefire ships an official hosted remote MCP server ("Spark"). Connect via the URL below; authorization
+  is an OAuth browser sign-in to your Sitefire account. Tool names below are harvested verbatim from the
+  official plugin (github.com/sitefire-ai/skills: CLAUDE.md + workflow SKILL.md files), which drive these
+  MCP tools. The published skills bundle installs via `npx skills add sitefire-ai/skills`.'
 server:
   name: sitefire
   product: Spark
@@ -16,31 +13,64 @@ server:
   url: https://app.sitefire.ai/api/mcp
   auth: oauth
   clients:
-    - Claude.ai / Claude Desktop (custom connector)
-    - Claude Code (claude mcp add --transport http --scope user sitefire https://app.sitefire.ai/api/mcp)
-    - ChatGPT (developer mode MCP connector)
-    - Codex (codex mcp add sitefire --url https://app.sitefire.ai/api/mcp)
+  - Claude.ai / Claude Desktop (custom connector)
+  - Claude Code (claude mcp add --transport http --scope user sitefire https://app.sitefire.ai/api/mcp)
+  - ChatGPT (developer mode MCP connector)
+  - Codex (codex mcp add sitefire --url https://app.sitefire.ai/api/mcp)
 skills_bundle:
   install: npx skills add sitefire-ai/skills
   repo: https://github.com/sitefire-ai/skills
 tools:
-  - name: get_visibility_overview
-    description: High-level AI visibility performance summary (score, trend, citation rate, competitor ranking).
-  - name: get_topic_positions
-    description: Competitive landscape per topic (winning/losing/competitive/untapped); supports view=all.
-  - name: get_topic_opportunities
-    description: AI-recommended priority topics worth creating actions for.
-  - name: get_source_performance
-    description: Which of your existing pages drive AI visibility.
-  - name: list_actions
-    description: List all Sitefire actions and their briefing/article status.
-  - name: get_action
-    description: Retrieve a single action, including its briefing ID.
-  - name: get_briefing
-    description: Read the actionable briefing attached to an action after diagnosis.
-  - name: get_article
-    description: Retrieve the generated article for a ready briefing.
-  - name: create_action
-    description: Create an action for a topic (preset type or auto-diagnosed).
-  - name: write_article
-    description: Trigger article generation for a CREATE_CONTENT action's briefing.
+- name: get_visibility_overview
+  description: High-level AI visibility performance summary (score, trend, citation rate, competitor ranking).
+- name: get_topic_positions
+  description: Competitive landscape per topic (winning/losing/competitive/untapped); supports view=all.
+- name: get_topic_opportunities
+  description: AI-recommended priority topics worth creating actions for.
+- name: get_source_performance
+  description: Which of your existing pages drive AI visibility.
+- name: list_actions
+  description: List all Sitefire actions and their briefing/article status.
+- name: get_action
+  description: Retrieve a single action, including its briefing ID.
+- name: get_briefing
+  description: Read the actionable briefing attached to an action after diagnosis.
+- name: get_article
+  description: Retrieve the generated article for a ready briefing.
+- name: create_action
+  description: Create an action for a topic (preset type or auto-diagnosed).
+- name: write_article
+  description: Trigger article generation for a CREATE_CONTENT action's briefing.
+deployment:
+  mode: remote
+  endpoint: https://app.sitefire.ai/api/mcp
+  install: null
+  package: null
+  auth: oauth
+  verified: probed
+  probe: gated
+  checked: '2026-08-13'
+  source: live JSON-RPC probe + https://sitefire.ai/docs/mcp.md
+  probe_detail: >-
+    An anonymous POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"} returned
+    HTTP 401 with a well-formed JSON-RPC error object and a conformant
+    WWW-Authenticate Bearer challenge naming
+    https://app.sitefire.ai/api/mcp/oauth-metadata. The endpoint is live and
+    reachable; the tool schemas are auth-gated. Tool names below therefore come
+    from the provider's own published skills bundle, not from tools/list, and no
+    inputSchema is asserted for any of them.
+  note: >-
+    Remote only. The `npx skills add sitefire-ai/skills` bundle is an Agent
+    Skills plugin whose .mcp.json points a local client at this same hosted URL -
+    it is not a stdio server, so mode stays `remote` rather than `both`.
+auth_profile: ../authentication/sitefire-authentication.yml
+crosswalk: sitefire-tool-crosswalk.yml
+mutating_tools:
+- name: create_action
+  consumes_quota: action briefs per month
+- name: write_article
+  consumes_quota: AI-optimized articles per month
+mutating_tools_note: >-
+  The provider's own published rule for these two: "Ask before creating new
+  actions or triggering article generation unless the user explicitly requested
+  it." No idempotency key is available on either - see conventions/.

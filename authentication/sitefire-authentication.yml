@@ -1,0 +1,94 @@
+generated: '2026-08-13'
+method: searched
+source: https://app.sitefire.ai/api/mcp/oauth-metadata
+docs: https://sitefire.ai/docs/mcp.md
+notes: >-
+  Sitefire runs two authentication postures, and they are opposites. The hosted
+  MCP server (Spark) is protected by OAuth 2.1 and advertises real RFC 9728
+  protected-resource metadata: an unauthenticated POST to the MCP endpoint
+  returns 401 with a WWW-Authenticate Bearer challenge naming the metadata URL,
+  which resolves to a Supabase-hosted authorization server publishing RFC 8414
+  metadata (PKCE S256, dynamic client registration, authorization_code +
+  refresh_token). The public Book Demo REST API declares no security scheme at
+  all and its own llms.txt states "No API key required. The API is public."
+  Nothing was derived from OpenAPI securitySchemes because the only published
+  spec declares none - derive-authentication.py returned zero schemes for this
+  provider. Everything below was probed live.
+summary:
+  types: [oauth2, none]
+  api_key_in: []
+  oauth2_flows: [authorizationCode]
+  surfaces: 2
+schemes:
+- name: mcp-oauth
+  type: oauth2
+  applies_to: https://app.sitefire.ai/api/mcp
+  sources: [https://app.sitefire.ai/api/mcp/oauth-metadata]
+  bearer_methods_supported: [header]
+  discovery:
+    protected_resource_metadata: https://app.sitefire.ai/api/mcp/oauth-metadata
+    protected_resource_metadata_spec: RFC 9728 (OAuth 2.0 Protected Resource Metadata)
+    challenge_header: 'WWW-Authenticate: Bearer resource_metadata="https://app.sitefire.ai/api/mcp/oauth-metadata"'
+    canonical_well_known_path_served: false
+    canonical_well_known_note: >-
+      The metadata document is real and machine-readable but is served from
+      /api/mcp/oauth-metadata rather than the RFC 9728 canonical location
+      /.well-known/oauth-protected-resource. The canonical path returns the
+      app's single-page-app HTML shell (soft 200), not a document. Because of
+      that, no WellKnown pointer is emitted for this provider.
+    file: sitefire-mcp-protected-resource.json
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://qhfesxmsojjleewjufcn.supabase.co/auth/v1/oauth/authorize
+    tokenUrl: https://qhfesxmsojjleewjufcn.supabase.co/auth/v1/oauth/token
+    registrationUrl: https://qhfesxmsojjleewjufcn.supabase.co/auth/v1/oauth/clients/register
+    refreshSupported: true
+    pkce: [S256, plain]
+    scopes: [openid, profile, email, phone, offline_access]
+  authorization_server:
+    issuer: https://qhfesxmsojjleewjufcn.supabase.co/auth/v1
+    operator: Supabase (third-party identity platform used by Sitefire)
+    metadata_spec: RFC 8414 (OAuth 2.0 Authorization Server Metadata)
+    metadata_url: https://qhfesxmsojjleewjufcn.supabase.co/auth/v1/.well-known/oauth-authorization-server
+    jwks_uri: https://qhfesxmsojjleewjufcn.supabase.co/auth/v1/.well-known/jwks.json
+    userinfo_endpoint: https://qhfesxmsojjleewjufcn.supabase.co/auth/v1/oauth/userinfo
+    dynamic_client_registration: true
+    id_token_signing_alg_values_supported: [RS256, HS256, ES256]
+    token_endpoint_auth_methods_supported: [client_secret_basic, client_secret_post, none]
+    file: sitefire-mcp-authorization-server.json
+  user_experience: >-
+    Browser sign-in to a Sitefire account. Documented per client - Claude.ai
+    custom connector, `claude mcp add --transport http --scope user sitefire
+    https://app.sitefire.ai/api/mcp`, ChatGPT developer-mode connector, and
+    `codex mcp add sitefire --url https://app.sitefire.ai/api/mcp` followed by
+    `codex mcp login sitefire`.
+- name: none
+  type: none
+  applies_to: https://sitefire.ai/api
+  sources: [https://sitefire.ai/llms.txt, openapi/sitefire-book-demo-api-openapi.yml]
+  description: >-
+    The Book Demo API is documented as public and unauthenticated. The OpenAPI
+    declares no securitySchemes and no security requirement on either operation.
+  note: >-
+    See lifecycle/sitefire-lifecycle.yml - both documented Book Demo routes were
+    probed on 2026-08-13 and neither resolved, so the unauthenticated posture
+    could not be exercised end to end.
+x-evidence:
+- url: https://app.sitefire.ai/api/mcp
+  method: POST
+  http_status: 401
+  note: JSON-RPC tools/list; returned {"jsonrpc":"2.0","error":{"code":-32000,"message":"Unauthorized"}} plus the WWW-Authenticate Bearer challenge
+  checked: '2026-08-13'
+- url: https://app.sitefire.ai/api/mcp/oauth-metadata
+  http_status: 200
+  content_type: application/json
+  checked: '2026-08-13'
+- url: https://qhfesxmsojjleewjufcn.supabase.co/auth/v1/.well-known/oauth-authorization-server
+  http_status: 200
+  content_type: application/json
+  checked: '2026-08-13'
+- url: https://app.sitefire.ai/.well-known/oauth-protected-resource
+  http_status: 200
+  content_type: text/html
+  note: SPA shell, not a document - rejected as a soft 200
+  checked: '2026-08-13'

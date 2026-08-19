@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitefire Book-a-Demo Book Demo API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Book Demo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available demo slots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sitefire.ai/api/book-demo/slots",
+            "params": [
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "Target date in YYYY-MM-DD format."
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "IANA timezone name used to render the slots."
+              }
+            ]
+          },
+          "docs": "Returns the available product-demo time slots for a given date and timezone."
+        },
+        {
+          "info": {
+            "name": "Book a demo slot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sitefire.ai/api/book-demo",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Books one of the available demo slots returned by getBookDemoSlots."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
