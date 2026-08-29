@@ -13,6 +13,18 @@ description: >-
   through an official hosted MCP server (Spark) and a published Agent Skills
   bundle. A small public, unauthenticated REST API books product demos. Sitefire
   is a Y Combinator (W2026) company.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-service
