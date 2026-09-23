@@ -1,96 +1,33 @@
-generated: '2026-08-13'
+generated: '2026-09-19'
 method: probed
-host: https://sitefire.ai
-notes: >-
-  Re-probed 2026-08-13 across both Sitefire hosts. sitefire.ai (Next.js on
-  Vercel) returns a hard 404 for every /.well-known/ path. app.sitefire.ai is a
-  single-page app whose catch-all answers HTTP 200 with the same 4,555-byte HTML
-  shell for EVERY path, including /.well-known/agent-card.json,
-  /.well-known/openid-configuration and /.well-known/oauth-protected-resource -
-  those are soft 200s, not documents, and are recorded as misses. No WellKnown
-  and no SecurityTxt pointer is emitted, because nothing at a /.well-known/ path
-  on either host returned a real document.
-  One genuine machine-readable discovery document DOES exist, but off the
-  canonical path: the MCP server's RFC 9728 protected-resource metadata is
-  served at https://app.sitefire.ai/api/mcp/oauth-metadata. It is captured in
-  authentication/ rather than here, precisely because it is not a well-known
-  URI. That is the single fix that would earn Sitefire this surface: serve the
-  same JSON from /.well-known/oauth-protected-resource.
-documents:
-- path: /.well-known/security.txt
-  host: https://sitefire.ai
-  status: 404
-- path: /security.txt
-  host: https://sitefire.ai
-  status: 404
-- path: /.well-known/openid-configuration
-  host: https://sitefire.ai
-  status: 404
-- path: /.well-known/oauth-authorization-server
-  host: https://sitefire.ai
-  status: 404
-- path: /.well-known/ai-plugin.json
-  host: https://sitefire.ai
-  status: 404
-- path: /.well-known/api-catalog
-  host: https://sitefire.ai
-  status: 404
-- path: /.well-known/agent-card.json
-  host: https://sitefire.ai
-  status: 404
-- path: /.well-known/agent.json
-  host: https://sitefire.ai
-  status: 404
-- path: /.well-known/openid-configuration
-  host: https://app.sitefire.ai
-  status: 200
-  content_type: text/html
-  document: false
-  note: SPA catch-all HTML shell - soft 200, rejected
-- path: /.well-known/oauth-authorization-server
-  host: https://app.sitefire.ai
-  status: 200
-  content_type: text/html
-  document: false
-  note: SPA catch-all HTML shell - soft 200, rejected
-- path: /.well-known/oauth-protected-resource
-  host: https://app.sitefire.ai
-  status: 200
-  content_type: text/html
-  document: false
-  note: >-
-    SPA catch-all HTML shell - soft 200, rejected. The real protected-resource
-    metadata is at /api/mcp/oauth-metadata (see authentication/).
-- path: /.well-known/agent-card.json
-  host: https://app.sitefire.ai
-  status: 200
-  content_type: text/html
-  document: false
-  note: SPA catch-all HTML shell - soft 200, rejected. No agent card exists.
-- path: /.well-known/agent.json
-  host: https://app.sitefire.ai
-  status: 200
-  content_type: text/html
-  document: false
-  note: SPA catch-all HTML shell - soft 200, rejected. No agent card exists.
-off_path_documents:
-- url: https://app.sitefire.ai/api/mcp/oauth-metadata
-  status: 200
-  content_type: application/json
-  spec: RFC 9728 (OAuth 2.0 Protected Resource Metadata)
-  canonical_path: /.well-known/oauth-protected-resource
-  served_at_canonical_path: false
-  file: ../authentication/sitefire-mcp-protected-resource.json
-other_discovery_surfaces:
-- url: https://sitefire.ai/robots.txt
-  status: 200
-  note: >-
-    Carries a Content-Signal directive - "Content-Signal: search=yes,
-    ai-input=yes, ai-train=yes" - an explicit machine-readable AI usage
-    preference, plus "Disallow: /api/". See conformance/.
-- url: https://sitefire.ai/llms.txt
-  status: 200
-  note: Published and current; captured verbatim at llms/sitefire-llms.txt.
-- url: https://sitefire.ai/sitemap.xml
-  status: 200
-checked: '2026-08-13'
+hosts:
+- host: https://app.sitefire.ai
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: sitefire-app-oauth-protected-resource.json
+    bytes: 161
+  path_echo_control: passed
+- host: https://qhfesxmsojjleewjufcn.supabase.co
+  documents:
+  - path: /auth/v1/.well-known/oauth-authorization-server
+    status: 200
+    file: sitefire-qhfesxmsojjleewjufcn-oauth-authorization-server.json
+    bytes: 1143
+  path_echo_control: passed
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://app.sitefire.ai
+    path: /.well-known/oauth-protected-resource
+    file: sitefire-app-oauth-protected-resource.json
+  - host: https://qhfesxmsojjleewjufcn.supabase.co
+    path: /auth/v1/.well-known/oauth-authorization-server
+    file: sitefire-qhfesxmsojjleewjufcn-oauth-authorization-server.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host
+note: 'MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s
+  primary hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed
+  and were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'

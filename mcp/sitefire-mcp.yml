@@ -44,25 +44,10 @@ tools:
 deployment:
   mode: remote
   endpoint: https://app.sitefire.ai/api/mcp
-  install: null
-  package: null
-  auth: oauth
   verified: probed
   probe: gated
-  checked: '2026-08-13'
-  source: live JSON-RPC probe + https://sitefire.ai/docs/mcp.md
-  probe_detail: >-
-    An anonymous POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"} returned
-    HTTP 401 with a well-formed JSON-RPC error object and a conformant
-    WWW-Authenticate Bearer challenge naming
-    https://app.sitefire.ai/api/mcp/oauth-metadata. The endpoint is live and
-    reachable; the tool schemas are auth-gated. Tool names below therefore come
-    from the provider's own published skills bundle, not from tools/list, and no
-    inputSchema is asserted for any of them.
-  note: >-
-    Remote only. The `npx skills add sitefire-ai/skills` bundle is an Agent
-    Skills plugin whose .mcp.json points a local client at this same hosted URL -
-    it is not a stdio server, so mode stays `remote` rather than `both`.
+  checked: '2026-08-12'
+  source: catalog MCP census
 auth_profile: ../authentication/sitefire-authentication.yml
 crosswalk: sitefire-tool-crosswalk.yml
 mutating_tools:
@@ -70,7 +55,6 @@ mutating_tools:
   consumes_quota: action briefs per month
 - name: write_article
   consumes_quota: AI-optimized articles per month
-mutating_tools_note: >-
-  The provider's own published rule for these two: "Ask before creating new
-  actions or triggering article generation unless the user explicitly requested
-  it." No idempotency key is available on either - see conventions/.
+mutating_tools_note: 'The provider''s own published rule for these two: "Ask before creating new actions
+  or triggering article generation unless the user explicitly requested it." No idempotency key is available
+  on either - see conventions/.'
