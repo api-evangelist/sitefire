@@ -58,3 +58,16 @@ mutating_tools:
 mutating_tools_note: 'The provider''s own published rule for these two: "Ask before creating new actions
   or triggering article generation unless the user explicitly requested it." No idempotency key is available
   on either - see conventions/.'
+rfc9728:
+  endpoint: https://app.sitefire.ai/api/mcp
+  metadata_url: https://app.sitefire.ai/api/mcp/oauth-metadata
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://app.sitefire.ai/api/mcp
+    authorization_servers:
+    - https://qhfesxmsojjleewjufcn.supabase.co/auth/v1
+    bearer_methods_supported:
+    - header
